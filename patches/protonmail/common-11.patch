@@ -19,10 +19,10 @@ index 4696b429a7..fe63f75e55 100644
      return isElectronApp() && isMac();
 
 diff --git a/packages/components/containers/unleash/UnleashFlagProvider.tsx b/packages/components/containers/unleash/UnleashFlagProvider.tsx
-index e9adc4f7f1..2e8d0388fd 100644
+index a53b947ea0..c0969ab408 100644
 --- a/packages/components/containers/unleash/UnleashFlagProvider.tsx
 +++ b/packages/components/containers/unleash/UnleashFlagProvider.tsx
-@@ -3,20 +3,21 @@ import { ReactNode } from 'react';
+@@ -3,21 +3,22 @@ import { ReactNode } from 'react';
  import FlagProvider from '@protontech/proxy-client-react';
  import { IConfig } from 'unleash-proxy-client';
 
@@ -30,6 +30,7 @@ index e9adc4f7f1..2e8d0388fd 100644
 +import { Api, ProtonConfig } from '@proton/shared/lib/interfaces';
 
  import useApi from '../../hooks/useApi';
+ import ProtonUnleashStorageProvider from './ProtonUnleashStorageProvider';
 +import { useConfig } from '@proton/components/hooks';
 
  // Just something dummy to have a valid domain because the library does new URL
@@ -47,23 +48,22 @@ index e9adc4f7f1..2e8d0388fd 100644
                  headers: config?.headers,
                  silence: true,
                  output: 'raw',
-@@ -30,6 +31,7 @@ interface Props {
- }
+@@ -33,6 +34,7 @@ interface Props {
+ const storageProvider = new ProtonUnleashStorageProvider();
 
  const UnleashFlagProvider = ({ children }: Props) => {
 +    const config = useConfig();
      const api = useApi();
      const unleashConfig: IConfig = {
          url,
-@@ -37,7 +39,7 @@ const UnleashFlagProvider = ({ children }: Props) => {
+@@ -40,7 +42,7 @@ const UnleashFlagProvider = ({ children }: Props) => {
          appName: '-', // set by the server
          refreshInterval: 600, // refreshInterval in seconds, 10 mins
          disableMetrics: true,
 -        fetch: customFetch(api),
 +        fetch: customFetch(api, config),
+         storageProvider,
      };
-
-     return <FlagProvider config={unleashConfig}>{children}</FlagProvider>;
 
 diff --git a/packages/pack/scripts/validate.sh b/packages/pack/scripts/validate.sh
 index 1a2ea64..bae388c 100755
@@ -220,10 +220,10 @@ index b82b7ae976..0907c85ec6 100644
  };
 
 diff --git a/packages/components/containers/heading/PrivateHeader.tsx b/packages/components/containers/heading/PrivateHeader.tsx
-index a7d2452313..73ad8a6828 100644
+index f7678c871b..fcaee27280 100644
 --- a/packages/components/containers/heading/PrivateHeader.tsx
 +++ b/packages/components/containers/heading/PrivateHeader.tsx
-@@ -49,7 +49,10 @@ const PrivateHeader = ({
+@@ -58,7 +58,10 @@ const PrivateHeader = ({
 
              <TopNavbar>
                  <TopNavbarList>
@@ -234,7 +234,7 @@ index a7d2452313..73ad8a6828 100644
 +                    }
                      {feedbackButton ? <TopNavbarListItem noShrink>{feedbackButton}</TopNavbarListItem> : null}
                      {settingsButton ? (
-                         <TopNavbarListItem noShrink className="no-mobile">
+                         <TopNavbarListItem noShrink className="hidden md:flex">
 
 diff --git a/packages/components/containers/api/ApiProvider.js b/packages/components/containers/api/ApiProvider.js
 index 3d1b81941c..6ac2f748fa 100644

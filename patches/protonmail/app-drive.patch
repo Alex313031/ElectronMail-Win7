@@ -17,10 +17,20 @@ index b0b25a5fae..11d4e4af0f 100644
    AddOutputFilter INCLUDES;DEFLATE svg
 
 diff --git a/applications/drive/src/app/store/_downloads/fileSaver/download.ts b/applications/drive/src/app/store/_downloads/fileSaver/download.ts
-index 66a9aba1cc..2a7ab63889 100644
+index 7483da5f4f..62d7bb7733 100644
 --- a/applications/drive/src/app/store/_downloads/fileSaver/download.ts
 +++ b/applications/drive/src/app/store/_downloads/fileSaver/download.ts
-@@ -56,19 +56,26 @@ function serviceWorkerKeepAlive() {
+@@ -13,8 +13,7 @@ import { TransferMeta } from '../../../components/TransferManager/transfer';
+  * IOS - forces all browsers to use webkit, so same problems as safari in all browsers.
+  * For them download is done in-memory using blob response.
+  */
+-export const isUnsupported = () =>
+-    !('serviceWorker' in navigator) || isSafari() || (isEdge() && !isEdgeChromium()) || isIos();
++export const isUnsupported = () => !('serviceWorker' in navigator);
+
+ // createDownloadIframe opens download URL created in service worker to
+ // initialize the download in the browser. The response has headers to
+@@ -56,21 +55,28 @@ function serviceWorkerKeepAlive() {
      }, 10000);
  }
 
@@ -29,6 +39,7 @@ index 66a9aba1cc..2a7ab63889 100644
      if (isUnsupported()) {
          throw new Error('Saving file via download is unsupported by this browser');
      }
+
 -    await navigator.serviceWorker.register(
 -        /* webpackChunkName: "downloadSW" */
 -        new URL('./downloadSW', import.meta.url),
@@ -48,6 +59,7 @@ index 66a9aba1cc..2a7ab63889 100644
 +        console.error(`Failed to register service worker.`, e.message);
 +        throw e;
 +    }
+
      serviceWorkerKeepAlive();
  }
 +/* </electron-mail-mark> */
@@ -67,21 +79,6 @@ index 1ff78a9928..d232854a68 100644
          "check-types": "tsc",
          "i18n:getlatest": "proton-i18n upgrade",
          "i18n:upgrade": "proton-i18n extract --verbose && proton-i18n crowdin -u --verbose",
-
-diff --git a/applications/drive/src/app/store/_downloads/fileSaver/download.ts b/applications/drive/src/app/store/_downloads/fileSaver/download.ts
-index 7bef98525..0650e8019 100644
---- a/applications/drive/src/app/store/_downloads/fileSaver/download.ts
-+++ b/applications/drive/src/app/store/_downloads/fileSaver/download.ts
-@@ -11,8 +11,7 @@ import { TransferMeta } from '@proton/shared/lib/interfaces/drive/transfer';
-  * IOS - forces all browsers to use webkit, so same problems as safari in all browsers.
-  * For them download is done in-memory using blob response.
-  */
--export const isUnsupported = () =>
--    !('serviceWorker' in navigator) || isSafari() || (isEdge() && !isEdgeChromium()) || isIos();
-+export const isUnsupported = () => !('serviceWorker' in navigator);
-
- // createDownloadIframe opens download URL created in service worker to
- // initialize the download in the browser. The response has headers to
 
 diff --git a/applications/drive/src/app/store/_shares/shareUrl.ts b/applications/drive/src/app/store/_shares/shareUrl.ts
 index 76b907e2a1..a267a2d50c 100644

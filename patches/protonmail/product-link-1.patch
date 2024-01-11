@@ -1,0 +1,35 @@
+diff --git a/packages/components/containers/app/ProductLink.tsx b/packages/components/containers/app/ProductLink.tsx
+index 0c9aed21da..7352ef5e88 100644
+--- a/packages/components/containers/app/ProductLink.tsx
++++ b/packages/components/containers/app/ProductLink.tsx
+@@ -1,9 +1,7 @@
+ import { ReactNode } from 'react';
+
+-import { IS_PROTON_USER_COOKIE_NAME } from '@proton/components/hooks/useIsProtonUserCookie';
+ import { getAppName } from '@proton/shared/lib/apps/helper';
+ import { APPS, APP_NAMES, SETUP_ADDRESS_PATH } from '@proton/shared/lib/constants';
+-import { getCookie } from '@proton/shared/lib/helpers/cookies';
+ import { getAppStaticUrl } from '@proton/shared/lib/helpers/url';
+ import { isElectronApp } from '@proton/shared/lib/helpers/desktop';
+ import { UserModel } from '@proton/shared/lib/interfaces';
+@@ -58,9 +56,7 @@ const ProductLink = ({ ownerApp, app, appToLinkTo, user, current, className, chi
+         );
+     }
+
+-    // This does not allow to get any user information but allow us to know if the user was already logged in Proton
+-    const isProtonUser = !!getCookie(IS_PROTON_USER_COOKIE_NAME);
+-    if (!isProtonUser) {
++    if (appToLinkTo === APPS.PROTONPASS) {
+         return (
+             <a
+                 href={getAppStaticUrl(appToLinkTo)}
+@@ -74,7 +70,7 @@ const ProductLink = ({ ownerApp, app, appToLinkTo, user, current, className, chi
+         );
+     }
+
+-    if (appToLinkTo === APPS.PROTONVPN_SETTINGS || appToLinkTo === APPS.PROTONPASS) {
++    if (appToLinkTo === APPS.PROTONVPN_SETTINGS) {
+         return (
+             <SettingsLink
+                 path="/"
+

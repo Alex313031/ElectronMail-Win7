@@ -28,12 +28,12 @@ index 519a50349..819bdb911 100644
  });
 
 diff --git a/applications/mail/src/app/containers/mailbox/MailboxContainer.tsx b/applications/mail/src/app/containers/mailbox/MailboxContainer.tsx
-index bbb73f6bc9..584e9324be 100644
+index 5be6a93078..aa37ede95c 100644
 --- a/applications/mail/src/app/containers/mailbox/MailboxContainer.tsx
 +++ b/applications/mail/src/app/containers/mailbox/MailboxContainer.tsx
-@@ -470,6 +470,7 @@ const MailboxContainer = ({
+@@ -486,6 +486,7 @@ const MailboxContainer = ({
                  tabIndex={-1}
-                 className="flex-item-fluid flex flex-column flex-nowrap outline-none"
+                 className="flex-1 flex flex-column flex-nowrap outline-none"
                  data-testid="mailbox"
 +                electron-mail-mailbox-container-component
              >
@@ -374,13 +374,13 @@ index 0d29745777..0000000000
 -export default MailDefaultHandlerModal;
 
 diff --git a/applications/mail/src/app/components/header/search/MailSearch.tsx b/applications/mail/src/app/components/header/search/MailSearch.tsx
-index 9b542628da..f26b6a9ccc 100644
+index a7fa599ea7..9113051876 100644
 --- a/applications/mail/src/app/components/header/search/MailSearch.tsx
 +++ b/applications/mail/src/app/components/header/search/MailSearch.tsx
-@@ -3,21 +3,17 @@ import { useEffect, useState } from 'react';
- import { Location } from 'history';
+@@ -4,21 +4,17 @@ import { Location } from 'history';
 
  import {
+     Breakpoints,
 -    FeatureCode,
      TopNavbarListItemSearchButton,
      generateUID,
@@ -398,7 +398,7 @@ index 9b542628da..f26b6a9ccc 100644
 -import { isEncryptedSearchAvailable } from '../../../helpers/encryptedSearch/esUtils';
  import { extractSearchParameters } from '../../../helpers/mailboxUrl';
  import { useClickMailContent } from '../../../hooks/useClickMailContent';
- import { Breakpoints } from '../../../models/utils';
+ import AdvancedSearch from './AdvancedSearch';
 @@ -37,17 +33,15 @@ interface Props {
 
  const MailSearch = ({ breakpoints, labelID, location, columnMode }: Props) => {
