@@ -1,7 +1,6 @@
-appId: 'github.com/vladimiry/ElectronMail'
+appId: 'com.alex313031.ElectronMail'
 artifactName: ${name}-${version}-${os}-${arch}.${ext}
 productName: 'ElectronMail'
-publish: {provider: github, releaseType: draft, vPrefixedTagName: true}
 forceCodeSigning: false
 
 # native dependencies compiling gets triggered in ./scripts/prepare-native-deps.ts

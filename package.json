@@ -1,19 +1,21 @@
 {
   "name": "electron-mail",
-  "description": "Unofficial ProtonMail Desktop App",
+  "productName": "ElectronMail",
+  "description": "Unofficial ProtonMail Desktop App - Legacy OS Builds",
+  "applicationId": "com.alex313031.ElectronMail",
   "version": "5.2.2",
-  "author": "Vladimir Yakovlev <desktop-app@protonmail.ch>",
+  "author": "Alex313031 <alex313031@gmail.com>",
   "license": "GPL-3.0",
-  "homepage": "https://github.com/vladimiry/ElectronMail",
+  "homepage": "https://github.com/Alex313031/ElectronMail-Win7#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/vladimiry/ElectronMail.git"
+    "url": "https://github.com/Alex313031/ElectronMail-Win7.git"
   },
   "bugs": {
-    "url": "https://github.com/vladimiry/ElectronMail/issues"
+    "url": "https://github.com/Alex313031/ElectronMail-Win7/issues"
   },
   "engines": {
-    "node": ">=16"
+    "node": ">=18"
   },
   "type": "module",
   "main": "./app/electron-main/index.cjs",
@@ -56,9 +58,12 @@
     "build:electron-builder-hooks:build": "pnpm run webpack:shortcut -- --config ./webpack-configs/electron-builder-hooks.ts",
     "build:electron-builder-hooks": "npm-run-all build:electron-builder-hooks:celanup build:electron-builder-hooks:build",
     "prepare-native-deps": "npm-run-all clean:prebuilds prepare:remove:prebuild-install scripts/prepare-native-deps",
+    "burn": "rimraf ./pnpm-lock.yaml && rimraf ./package-lock.json",
+    "clean": "npm-run-all clean:app clean:app-dev clean:output clean:prebuilds clean:modules",
     "clean:app": "rimraf ./app",
     "clean:app-dev": "rimraf ./app-dev",
     "clean:output": "rimraf ./output",
+    "clean:modules": "rimraf ./node_modules",
     "clean:prebuilds": "rimraf ./node_modules/{keytar,sodium-native,msgpackr-extract}/{bin,build,prebuilds} ./node_modules/@msgpackr-extract/ \"./node_modules/sodium-native/deps/**/!(bin.js)\"",
     "assets": "npm-run-all assets:copy assets:webclient",
     "assets:dev": "npm-run-all assets:copy:dev assets:webclient:dev",
@@ -66,6 +71,7 @@
     "assets:copy:dev": "cpx \"./src/assets/dist/**/*\" ./app-dev/assets",
     "assets:webclient": "pnpm run ts-node:shortcut ./scripts/prepare-webclient/index.ts ./app",
     "assets:webclient:dev": "pnpm run ts-node:shortcut ./scripts/prepare-webclient/index.ts ./app-dev",
+    "dist": "electron-builder:dist",
     "electron-builder:dist": "npm run electron-builder:shortcut -- --publish never",
     "electron-builder:dist:linux:appimage": "pnpm run ts-node:shortcut ./scripts/electron-builder/build-appimage.ts",
     "electron-builder:dist:linux:snap": "npm run electron-builder:shortcut -- --publish never --linux snap",
@@ -77,6 +83,7 @@
     "lint:code": "npm-run-all lint:ts:eslint",
     "lint:ts:base:eslint": "eslint",
     "lint:ts:eslint": "pnpm run lint:ts:base:eslint \"./src/**/*.ts\" \"./scripts/**/*.ts\" \"./webpack-configs/**/*.ts\"",
+    "start": "pnpm run build && pnpm run assets && electron ./app/electron-main/index.cjs",
     "start:electron": "electron ./app/electron-main/index.cjs",
     "start:electron:dev": "electron --inspect-brk- ./app-dev/electron-main/index.cjs",
     "test:e2e:build-code": "cross-env NODE_ENV=e2e npm-run-all build:electron-main build:electron-preload:browser-window build:electron-preload:webview-primary build:electron-preload:webview-calendar",
@@ -168,10 +175,10 @@
     "cross-env": "7.0.3",
     "css-loader": "6.8.1",
     "dts-generator": "3.0.0",
-    "electron": "27.1.0",
+    "electron": "22.3.27",
     "electron-builder": "24.6.5",
     "electron-fetch": "1.9.1",
-    "electron-log": "5.0.0",
+    "electron-log": "5.1.2",
     "electron-unhandled": "4.0.1",
     "eslint": "8.53.0",
     "eslint-plugin-import": "2.29.0",
